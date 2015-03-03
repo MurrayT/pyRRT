@@ -188,8 +188,8 @@ def main(set_nodes):
             shared.obstacles[-1].width = abs(dx)
             shared.obstacles[-1].height = abs(dy)
             if shared.obstacles:
-                for node in shared.nodes:
-                    if shared.obstacles[-1].collides_with(node.x, node.y):
+                for this_node in shared.nodes:
+                    if shared.obstacles[-1].collides_with(this_node.x, this_node.y):
                         shared.obstacles[-1].delete()
                 if shared.obstacles[-1].collides_with(shared.goal.x, shared.goal.y):
                     shared.obstacles[-1].delete()

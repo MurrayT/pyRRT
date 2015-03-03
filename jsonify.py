@@ -3,6 +3,7 @@ __author__ = 'murraytannock'
 import shared
 import json
 import sys
+import os
 
 import obstacle
 import node
@@ -29,7 +30,11 @@ def json_dump():
             "width": obs.width/shared.xrange,
             "height": obs.height/shared.yrange
         }
-    outfile = shared.outfile_base+"2"+shared.outfile_ext
+    i = 0
+    outfile = shared.outfile_base+str(i)+shared.outfile_ext
+    while os.path.exists(outfile):
+        i += 1
+        outfile = shared.outfile_base+str(i)+shared.outfile_ext
     with open(outfile, "w") as r:
         json.dump(my_dict, r)
 

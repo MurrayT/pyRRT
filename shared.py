@@ -27,7 +27,7 @@ method = None
 fullscreen = False
 region = None
 continual = True
-outfile_base = "levels/"
+outfile_base = "levels/level"
 outfile_ext = ".json"
 
 
