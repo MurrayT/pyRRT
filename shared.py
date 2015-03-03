@@ -21,10 +21,14 @@ nodes = []
 obstacles = []
 xdomain = 0, window_width
 ydomain = 50, window_height
+xrange = xdomain[1] - xdomain[0]
+yrange = ydomain[1] - ydomain[0]
 method = None
 fullscreen = False
 region = None
 continual = True
+outfile_base = "levels/"
+outfile_ext = ".json"
 
 if continual:
     base_max = 1000000000000000000000
