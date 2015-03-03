@@ -8,7 +8,7 @@ import shared
 
 
 class Ellipse(object):
-    segments = 20
+    segments = 40
 
     def __init__(self, x, y, width, height=None, rotation=0):
         if height is None:

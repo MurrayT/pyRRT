@@ -151,13 +151,13 @@ def main(set_nodes):
             window.set_caption("Rapidly Expanding Random Trees - %s - %s" %
                                (shared.method.__name__,
                                 'Running' if shared.running else 'Stopped'))
-        if symbol == key.R:
+        if symbol == key.T:
             window.clear()
             setup()
             window.set_caption("Rapidly Expanding Random Trees - %s - %s" %
                                (shared.method.__name__,
                                 'Running' if shared.running else 'Stopped'))
-        if symbol == key.T:
+        if symbol == key.R:
             window.clear()
             setup((True, True))
             window.set_caption("Rapidly Expanding Random Trees - %s - %s" %
