@@ -1,12 +1,13 @@
 __author__ = 'Murray Tannock'
 
 import math
-import shared
+
 from pyglet import gl
+
+import shared
 
 
 class Node(object):
-
     def __init__(self, x, y, parent=None, node_type="normal"):
         self.x = x
         self.y = y
@@ -26,23 +27,23 @@ class Node(object):
 
         if node_type == "normal":
             self.node = shared.batch.add(4, gl.GL_QUADS, None,
-                                         ('v2f', (self.x-1, self.y+1,
-                                                  self.x+1, self.y+1,
-                                                  self.x+1, self.y-1,
-                                                  self.x-1, self.y-1)))
+                                         ('v2f', (self.x - 1, self.y + 1,
+                                                  self.x + 1, self.y + 1,
+                                                  self.x + 1, self.y - 1,
+                                                  self.x - 1, self.y - 1)))
         if node_type == "root":
             self.node = shared.batch.add(4, gl.GL_QUADS, None,
-                                         ('v2f', (self.x-5, self.y+5,
-                                                  self.x+5, self.y+5,
-                                                  self.x+5, self.y-5,
-                                                  self.x-5, self.y-5)),
+                                         ('v2f', (self.x - 5, self.y + 5,
+                                                  self.x + 5, self.y + 5,
+                                                  self.x + 5, self.y - 5,
+                                                  self.x - 5, self.y - 5)),
                                          ('c3B', (255, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0)))
         if node_type == "goal":
             self.node = shared.batch.add(4, gl.GL_QUADS, None,
-                                         ('v2f', (self.x-5, self.y+5,
-                                                  self.x+5, self.y+5,
-                                                  self.x+5, self.y-5,
-                                                  self.x-5, self.y-5)),
+                                         ('v2f', (self.x - 5, self.y + 5,
+                                                  self.x + 5, self.y + 5,
+                                                  self.x + 5, self.y - 5,
+                                                  self.x - 5, self.y - 5)),
                                          ('c3B', (0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0)))
 
     def __str__(self):
@@ -62,9 +63,9 @@ class Node(object):
                     return None
             n = Node(other[0], other[1], self)
         else:
-            theta = math.atan2(other[1]-self.y, other[0]-self.x)
-            x = self.x + shared.STEP_SIZE*math.cos(theta)
-            y = self.y + shared.STEP_SIZE*math.sin(theta)
+            theta = math.atan2(other[1] - self.y, other[0] - self.x)
+            x = self.x + shared.STEP_SIZE * math.cos(theta)
+            y = self.y + shared.STEP_SIZE * math.sin(theta)
             for obstacle in shared.obstacles:
                 if obstacle.collides_with(x, y):
                     return None
@@ -79,9 +80,9 @@ class Node(object):
                     return None
             n = (other[0], other[1])
         else:
-            theta = math.atan2(other[1]-self.y, other[0]-self.x)
-            x = self.x + shared.STEP_SIZE*math.cos(theta)
-            y = self.y + shared.STEP_SIZE*math.sin(theta)
+            theta = math.atan2(other[1] - self.y, other[0] - self.x)
+            x = self.x + shared.STEP_SIZE * math.cos(theta)
+            y = self.y + shared.STEP_SIZE * math.sin(theta)
             for obstacle in shared.obstacles:
                 if obstacle.collides_with(x, y):
                     return None
@@ -99,10 +100,10 @@ class Node(object):
         if self.type == "normal":
             self.node.delete()
             self.node = shared.batch.add(4, gl.GL_QUADS, None,
-                                         ('v2f', (self.x-2.5, self.y+2.5,
-                                                  self.x+2.5, self.y+2.5,
-                                                  self.x+2.5, self.y-2.5,
-                                                  self.x-2.5, self.y-2.5)),
+                                         ('v2f', (self.x - 2.5, self.y + 2.5,
+                                                  self.x + 2.5, self.y + 2.5,
+                                                  self.x + 2.5, self.y - 2.5,
+                                                  self.x - 2.5, self.y - 2.5)),
                                          ('c3B', (0, 255, 255,
                                                   0, 255, 255,
                                                   0, 255, 255,
@@ -123,10 +124,10 @@ class Node(object):
         if self.type == "normal":
             self.node.delete()
             self.node = shared.batch.add(4, gl.GL_QUADS, None,
-                                         ('v2f', (self.x-1, self.y+1,
-                                                  self.x+1, self.y+1,
-                                                  self.x+1, self.y-1,
-                                                  self.x-1, self.y-1)))
+                                         ('v2f', (self.x - 1, self.y + 1,
+                                                  self.x + 1, self.y + 1,
+                                                  self.x + 1, self.y - 1,
+                                                  self.x - 1, self.y - 1)))
 
     def update_cost(self):
         self.cost = self.parent.cost + self.dist_to((self.parent.x, self.parent.y))

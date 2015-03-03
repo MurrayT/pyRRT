@@ -1,4 +1,5 @@
 from pyglet import gl
+
 import shared
 
 
@@ -13,19 +14,19 @@ class Obstacle(object):
 
     def add_to_default_batch(self):
         if self.y < 50:
-            self.height += self.y-50
+            self.height += self.y - 50
             self.y = 50
         if self.width < shared.STEP_SIZE or self.height < shared.STEP_SIZE:
             self.delete()
             return
         self.shape = shared.batch.add(4, gl.GL_QUADS, None,
                                       ('v2f', (self.x, self.y,
-                                       self.x + self.width, self.y,
-                                       self.x + self.width, self.y + self.height,
-                                       self.x, self.y + self.height)))
+                                               self.x + self.width, self.y,
+                                               self.x + self.width, self.y + self.height,
+                                               self.x, self.y + self.height)))
 
     def collides_with(self, x, y):
-        return self.x+self.width > x > self.x and self.y+self.height > y > self.y
+        return self.x + self.width > x > self.x and self.y + self.height > y > self.y
 
     def delete(self):
         if self.shape is not None:

@@ -32,6 +32,5 @@ continual = True
 outfile_base = "levels/level"
 outfile_ext = ".json"
 
-
 if continual:
     base_max = 1000000000000000000000

@@ -1,10 +1,10 @@
 __author__ = 'Murray Tannock'
 
-import shared
 import json
 import sys
 import os
 
+import shared
 import obstacle
 import node
 
@@ -12,29 +12,29 @@ import node
 def json_dump():
     my_dict = {"nodes": {
         "1": {
-            "x": shared.nodes[0].x/shared.x_range,
-            "y": (shared.nodes[0].y-shared.y_domain[0])/shared.y_range,
+            "x": shared.nodes[0].x / shared.x_range,
+            "y": (shared.nodes[0].y - shared.y_domain[0]) / shared.y_range,
             "type": shared.nodes[0].type
         },
         "2": {
-            "x": shared.goal.x/shared.x_range,
-            "y": (shared.goal.y-shared.y_domain[0])/shared.y_range,
+            "x": shared.goal.x / shared.x_range,
+            "y": (shared.goal.y - shared.y_domain[0]) / shared.y_range,
             "type": shared.goal.type
         }
     }, "obstacles": {}}
 
     for i, obs in enumerate(shared.obstacles):
         my_dict["obstacles"][str(i)] = {
-            "x": obs.x/shared.x_range,
-            "y": (obs.y-shared.y_domain[0])/shared.y_range,
-            "width": obs.width/shared.x_range,
-            "height": obs.height/shared.y_range
+            "x": obs.x / shared.x_range,
+            "y": (obs.y - shared.y_domain[0]) / shared.y_range,
+            "width": obs.width / shared.x_range,
+            "height": obs.height / shared.y_range
         }
     i = 0
-    outfile = shared.outfile_base+str(i)+shared.outfile_ext
+    outfile = shared.outfile_base + str(i) + shared.outfile_ext
     while os.path.exists(outfile):
         i += 1
-        outfile = shared.outfile_base+str(i)+shared.outfile_ext
+        outfile = shared.outfile_base + str(i) + shared.outfile_ext
     with open(outfile, "w") as r:
         json.dump(my_dict, r)
 
@@ -58,31 +58,33 @@ def parse_infile(infile):
             for obs in obstacles:
                 print(obstacles[obs])
                 this_obstacle = obstacles[obs]
-                x = this_obstacle["x"]*shared.x_range
-                y = (this_obstacle["y"]*shared.y_range)+shared.y_domain[0]
-                width = this_obstacle["width"]*shared.x_range
-                height = this_obstacle["height"]*shared.y_range
+                x = this_obstacle["x"] * shared.x_range
+                y = (this_obstacle["y"] * shared.y_range) + shared.y_domain[0]
+                width = this_obstacle["width"] * shared.x_range
+                height = this_obstacle["height"] * shared.y_range
                 shared.obstacles.append(obstacle.Obstacle(x, y, width, height))
         if 'nodes' in json_obj:
             nodes = json_obj["nodes"]
             for my_node in nodes:
                 this_node = nodes[my_node]
                 if this_node["type"] == "root":
-                    x = this_node["x"]*shared.x_range
-                    y = (this_node["y"]*shared.y_range)+shared.y_domain[0]
+                    x = this_node["x"] * shared.x_range
+                    y = (this_node["y"] * shared.y_range) + shared.y_domain[0]
                     for obs in shared.obstacles:
                         if obs.collides_with(x, y):
-                            print("Error: Specified root node collides with an obstacle.".format(infile), file=sys.stderr)
+                            print("Error: Specified root node collides with an obstacle.".format(infile),
+                                  file=sys.stderr)
                             exit(1)
                     shared.nodes.append(node.Node(x, y, None, "root"))
                     root_set = True
 
                 if this_node["type"] == "goal":
-                    x = this_node["x"]*shared.x_range
-                    y = (this_node["y"]*shared.y_range)+shared.y_domain[0]
+                    x = this_node["x"] * shared.x_range
+                    y = (this_node["y"] * shared.y_range) + shared.y_domain[0]
                     for obs in shared.obstacles:
                         if obs.collides_with(x, y):
-                            print("Error: Specified root node collides with an obstacle.".format(infile), file=sys.stderr)
+                            print("Error: Specified root node collides with an obstacle.".format(infile),
+                                  file=sys.stderr)
                             exit(1)
                     shared.goal = node.Node(x, y, None, "goal")
                     goal_set = True

@@ -2,6 +2,7 @@ __author__ = 'Murray Tannock'
 
 import random
 import math
+
 import ellipse
 from probabilistic_search import *
 
@@ -12,18 +13,20 @@ def step():
     rand = (random.randint(x_domain[0], x_domain[1]), random.randint(y_domain[0], y_domain[1]))
     if shared.root_path:
         major = shared.root_path_length
-        minor = math.sqrt(major**2 - shared.root_path[0].dist_to((shared.root_path[-1].x, shared.root_path[-1].y))**2)
-        angle = math.atan2(shared.root_path[0].y-shared.root_path[-1].y, shared.root_path[0].x - shared.root_path[-1].x)
+        minor = math.sqrt(
+            major ** 2 - shared.root_path[0].dist_to((shared.root_path[-1].x, shared.root_path[-1].y)) ** 2)
+        angle = math.atan2(shared.root_path[0].y - shared.root_path[-1].y,
+                           shared.root_path[0].x - shared.root_path[-1].x)
         rho = math.sqrt(random.random())
         phi = random.random() * 2 * math.pi
-        center = ((shared.root_path[0].x+shared.root_path[-1].x)/2,
-                  (shared.root_path[0].y+shared.root_path[-1].y)/2)
+        center = ((shared.root_path[0].x + shared.root_path[-1].x) / 2,
+                  (shared.root_path[0].y + shared.root_path[-1].y) / 2)
         x = rho * math.cos(phi)
         y = rho * math.sin(phi)
-        x *= major/2
-        y *= minor/2
-        x, y = x*math.cos(angle)-y*math.sin(angle), \
-               x*math.sin(angle)+y*math.cos(angle)
+        x *= major / 2
+        y *= minor / 2
+        x, y = x * math.cos(angle) - y * math.sin(angle), \
+               x * math.sin(angle) + y * math.cos(angle)
         if not shared.region:
             shared.region = ellipse.Ellipse(center[0], center[1], major, minor, angle)
             shared.region.add_to_batch()
@@ -31,7 +34,7 @@ def step():
             shared.region.remove_from_batch()
             shared.region = ellipse.Ellipse(center[0], center[1], major, minor, angle)
             shared.region.add_to_batch()
-        rand = (x+center[0], y+center[1])
+        rand = (x + center[0], y + center[1])
     if x_domain[1] > rand[0] > x_domain[0] and y_domain[1] > rand[1] > y_domain[0]:
         nearest_in = node.nearest_neighbour(rand[0], rand[1])
         next_node = nearest_in.step_to(rand)
@@ -51,13 +54,16 @@ def step():
             updated = updated or goal_path_resolve(shared.nodes[-1])
             if updated:
                 major = shared.root_path_length
-                minor = math.sqrt(major**2 - shared.root_path[0].dist_to((shared.root_path[-1].x, shared.root_path[-1].y))**2)
-                angle = math.atan2(shared.root_path[0].y-shared.root_path[-1].y, shared.root_path[0].x - shared.root_path[-1].x)
-                center = ((shared.root_path[0].x+shared.root_path[-1].x)/2,
-                          (shared.root_path[0].y+shared.root_path[-1].y)/2)
+                minor = math.sqrt(
+                    major ** 2 - shared.root_path[0].dist_to((shared.root_path[-1].x, shared.root_path[-1].y)) ** 2)
+                angle = math.atan2(shared.root_path[0].y - shared.root_path[-1].y,
+                                   shared.root_path[0].x - shared.root_path[-1].x)
+                center = ((shared.root_path[0].x + shared.root_path[-1].x) / 2,
+                          (shared.root_path[0].y + shared.root_path[-1].y) / 2)
                 if shared.region:
                     shared.region.remove_from_batch()
                 shared.region = ellipse.Ellipse(center[0], center[1], major, minor, angle)
                 shared.region.add_to_batch()
+
 
 step.__name__ = "RRT*Informed"

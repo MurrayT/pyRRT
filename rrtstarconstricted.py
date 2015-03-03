@@ -2,6 +2,7 @@ __author__ = 'Murray Tannock'
 
 import random
 import math
+
 import ellipse
 from probabilistic_search import *
 
@@ -14,13 +15,13 @@ def step():
         diameter = shared.root_path_length
         rho = math.sqrt(random.random())
         phi = random.random() * 2 * math.pi
-        center = ((shared.root_path[0].x+shared.root_path[-1].x)/2,
-                  (shared.root_path[0].y+shared.root_path[-1].y)/2)
+        center = ((shared.root_path[0].x + shared.root_path[-1].x) / 2,
+                  (shared.root_path[0].y + shared.root_path[-1].y) / 2)
         x = rho * math.cos(phi)
         y = rho * math.sin(phi)
-        x *= diameter/2
-        y *= diameter/2
-        rand = (x+center[0], y+center[1])
+        x *= diameter / 2
+        y *= diameter / 2
+        rand = (x + center[0], y + center[1])
     if x_domain[1] > rand[0] > x_domain[0] and y_domain[1] > rand[1] > y_domain[0]:
         nearest_in = node.nearest_neighbour(rand[0], rand[1])
         next_node = nearest_in.step_to(rand)
@@ -40,10 +41,12 @@ def step():
             updated = updated or goal_path_resolve(shared.nodes[-1])
             if updated:
                 diameter = shared.root_path_length
-                center = ((shared.root_path[0].x+shared.root_path[-1].x)/2,
-                          (shared.root_path[0].y+shared.root_path[-1].y)/2)
+                center = ((shared.root_path[0].x + shared.root_path[-1].x) / 2,
+                          (shared.root_path[0].y + shared.root_path[-1].y) / 2)
                 if shared.region:
                     shared.region.remove_from_batch()
                 shared.region = ellipse.Ellipse(center[0], center[1], diameter)
                 shared.region.add_to_batch()
+
+
 step.__name__ = "RRT*Constricted"

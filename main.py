@@ -17,6 +17,7 @@ import rrtstarinformed
 import shared
 import jsonify
 
+
 methods = [rrt.step, rrtstar.step, rrtstarconstricted.step, rrtstarinformed.step]
 meth_cycle = cycle(methods)
 
@@ -27,6 +28,7 @@ def method_cycle():
     return next(meth_cycle)
 
 
+# noinspection PyUnusedLocal
 def update(dt):
     path_cost = None
     if shared.running:
@@ -36,55 +38,55 @@ def update(dt):
     gl.glLoadIdentity()
     if shared.root_path_length != sys.maxsize:
         path_cost = pyglet.text.Label("Path Cost: %6.2f" % shared.root_path_length,
-                                     font_size=18,
-                                     x=shared.window_width//3, y=24,
-                                     anchor_x='center', anchor_y='center',
-                                     color=(128, 128, 128, 128))
+                                      font_size=18,
+                                      x=shared.window_width // 3, y=24,
+                                      anchor_x='center', anchor_y='center',
+                                      color=(128, 128, 128, 128))
     label = pyglet.text.Label(shared.method.__name__,
                               font_size=36,
-                              x=shared.window_width-10, y=24,
+                              x=shared.window_width - 10, y=24,
                               anchor_x='right', anchor_y='center',
                               color=(128, 128, 128, 128))
     pyglet.graphics.draw(4, gl.GL_QUADS,
-                                     ('v2f', (0, 50,
-                                              shared.window_width, 50,
-                                              shared.window_width, 48,
-                                              0, 48)),
-                                     ('c4f', (0.5, 0.5, 0.5, 0.5,
-                                              0.5, 0.5, 0.5, 0.5,
-                                              0.5, 0.5, 0.5, 0.5,
-                                              0.5, 0.5, 0.5, 0.5)))
+                         ('v2f', (0, 50,
+                                  shared.window_width, 50,
+                                  shared.window_width, 48,
+                                  0, 48)),
+                         ('c4f', (0.5, 0.5, 0.5, 0.5,
+                                  0.5, 0.5, 0.5, 0.5,
+                                  0.5, 0.5, 0.5, 0.5,
+                                  0.5, 0.5, 0.5, 0.5)))
     if shared.running:
         if shared.node_count >= shared.max_nodes:
             pyglet.graphics.draw(4, gl.GL_QUADS,
-                                             ('v2f', (shared.window_width//5-20, 24 - 10,
-                                                      shared.window_width//5-20, 24 + 10,
-                                                      shared.window_width//5, 24 + 10,
-                                                      shared.window_width//5, 24 - 10)),
-                                             ('c4f', (0.5, 0.25, 0.0, 0.5,
-                                                      0.5, 0.25, 0.0, 0.5,
-                                                      0.5, 0.25, 0.0, 0.5,
-                                                      0.5, 0.25, 0.0, 0.5)))
+                                 ('v2f', (shared.window_width // 5 - 20, 24 - 10,
+                                          shared.window_width // 5 - 20, 24 + 10,
+                                          shared.window_width // 5, 24 + 10,
+                                          shared.window_width // 5, 24 - 10)),
+                                 ('c4f', (0.5, 0.25, 0.0, 0.5,
+                                          0.5, 0.25, 0.0, 0.5,
+                                          0.5, 0.25, 0.0, 0.5,
+                                          0.5, 0.25, 0.0, 0.5)))
         else:
             pyglet.graphics.draw(4, gl.GL_QUADS,
-                                             ('v2f', (shared.window_width//5-20, 24 - 10,
-                                                      shared.window_width//5-20, 24 + 10,
-                                                      shared.window_width//5, 24 + 10,
-                                                      shared.window_width//5, 24 - 10)),
-                                             ('c4f', (0.0, 0.5, 0.0, 0.5,
-                                                      0.0, 0.5, 0.0, 0.5,
-                                                      0.0, 0.5, 0.0, 0.5,
-                                                      0.0, 0.5, 0.0, 0.5)))
+                                 ('v2f', (shared.window_width // 5 - 20, 24 - 10,
+                                          shared.window_width // 5 - 20, 24 + 10,
+                                          shared.window_width // 5, 24 + 10,
+                                          shared.window_width // 5, 24 - 10)),
+                                 ('c4f', (0.0, 0.5, 0.0, 0.5,
+                                          0.0, 0.5, 0.0, 0.5,
+                                          0.0, 0.5, 0.0, 0.5,
+                                          0.0, 0.5, 0.0, 0.5)))
     else:
         pyglet.graphics.draw(4, gl.GL_QUADS,
-                                         ('v2f', (shared.window_width//5-20, 24 - 10,
-                                                  shared.window_width//5-20, 24 + 10,
-                                                  shared.window_width//5, 24 + 10,
-                                                  shared.window_width//5, 24 - 10)),
-                                         ('c4f', (0.5, 0.0, 0.0, 0.5,
-                                                  0.5, 0.0, 0.0, 0.5,
-                                                  0.5, 0.0, 0.0, 0.5,
-                                                  0.5, 0.0, 0.0, 0.5)))
+                             ('v2f', (shared.window_width // 5 - 20, 24 - 10,
+                                      shared.window_width // 5 - 20, 24 + 10,
+                                      shared.window_width // 5, 24 + 10,
+                                      shared.window_width // 5, 24 - 10)),
+                             ('c4f', (0.5, 0.0, 0.0, 0.5,
+                                      0.5, 0.0, 0.0, 0.5,
+                                      0.5, 0.0, 0.0, 0.5,
+                                      0.5, 0.0, 0.0, 0.5)))
     shared.batch.draw()
     fps_display.draw()
     label.draw()
@@ -110,7 +112,7 @@ def setup(is_set=(False, False)):
     if not is_set[0]:
         root = None
         while root is None:
-            root = random.random()*shared.window_width, random.random()*(shared.window_height-50)+50
+            root = random.random() * shared.window_width, random.random() * (shared.window_height - 50) + 50
             for obs in shared.obstacles:
                 if obs.collides_with(root[0], root[1]):
                     root = None
@@ -121,7 +123,7 @@ def setup(is_set=(False, False)):
     if not is_set[1]:
         goal = None
         while goal is None:
-            goal = random.random()*shared.window_width, random.random()*(shared.window_height-50)+50
+            goal = random.random() * shared.window_width, random.random() * (shared.window_height - 50) + 50
             for obs in shared.obstacles:
                 if obs.collides_with(goal[0], goal[1]):
                     goal = None
@@ -140,36 +142,42 @@ def main(set_nodes):
         shared.window_width, shared.window_height = shared.screen_width, shared.screen_height
     window = pyglet.window.Window(width=shared.window_width, height=shared.window_height)
     window.set_fullscreen(shared.fullscreen, shared.screen)
-    window.set_location(shared.screen.x, shared.screen.height-shared.default_screen.height)
+    window.set_location(shared.screen.x, shared.screen.height - shared.default_screen.height)
     window.set_caption("Rapidly Expanding Random Trees - RRT - Stopped")
 
+    # noinspection PyUnusedLocal
     @window.event
     def on_key_press(symbol, modifiers):
         if symbol == key.S:
             shared.running = not shared.running
-            window.set_caption("Rapidly Expanding Random Trees - %s - %s" % (shared.method.__name__,
-                                                                             'Running' if shared.running else 'Stopped'))
+            window.set_caption("Rapidly Expanding Random Trees - %s - %s" %
+                               (shared.method.__name__,
+                                'Running' if shared.running else 'Stopped'))
         if symbol == key.R:
             window.clear()
             setup()
-            window.set_caption("Rapidly Expanding Random Trees - %s - %s" % (shared.method.__name__,
-                                                                             'Running' if shared.running else 'Stopped'))
+            window.set_caption("Rapidly Expanding Random Trees - %s - %s" %
+                               (shared.method.__name__,
+                                'Running' if shared.running else 'Stopped'))
         if symbol == key.T:
             window.clear()
             setup((True, True))
-            window.set_caption("Rapidly Expanding Random Trees - %s - %s" % (shared.method.__name__,
-                                                                             'Running' if shared.running else 'Stopped'))
+            window.set_caption("Rapidly Expanding Random Trees - %s - %s" %
+                               (shared.method.__name__,
+                                'Running' if shared.running else 'Stopped'))
         if symbol == key.P:
             shared.method = method_cycle()
             setup((True, True))
-            window.set_caption("Rapidly Expanding Random Trees - %s - %s" % (shared.method.__name__,
-                                                                             'Running' if shared.running else 'Stopped'))
+            window.set_caption("Rapidly Expanding Random Trees - %s - %s" %
+                               (shared.method.__name__,
+                                'Running' if shared.running else 'Stopped'))
         if symbol == key.UP:
             shared.max_nodes *= 2
 
         if symbol == key.D:
             jsonify.json_dump()
 
+    # noinspection PyUnusedLocal
     @window.event
     def on_mouse_press(x, y, button, modifiers):
         if button == mouse.LEFT:
@@ -179,6 +187,7 @@ def main(set_nodes):
                 if obs.collides_with(x, y):
                     obs.delete()
 
+    # noinspection PyUnusedLocal
     @window.event
     def on_mouse_release(x, y, button, modifiers):
         if button == mouse.LEFT:
@@ -206,6 +215,7 @@ def main(set_nodes):
 
 if __name__ == "__main__":
     import argparse
+
     nodes_set = (False, False)
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--screensaver",
