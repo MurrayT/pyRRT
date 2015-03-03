@@ -136,10 +136,11 @@ def setup(is_set=(False, False)):
 
 
 def main(set_nodes):
-    window = pyglet.window.Window(width=shared.window_width, height=shared.window_height)
     if shared.fullscreen:
-        window.set_fullscreen(True, shared.screen)
-        window.set_location(shared.screen.x, shared.screen.height-shared.default_screen.height)
+        shared.window_width, shared.window_height = shared.screen_width, shared.screen_height
+    window = pyglet.window.Window(width=shared.window_width, height=shared.window_height)
+    window.set_fullscreen(shared.fullscreen, shared.screen)
+    window.set_location(shared.screen.x, shared.screen.height-shared.default_screen.height)
     window.set_caption("Rapidly Expanding Random Trees - RRT - Stopped")
 
     @window.event
@@ -210,11 +211,13 @@ if __name__ == "__main__":
     parser.add_argument("-s", "--screensaver",
                         help="run with a very high number of nodes, and no stopping after each pathfinding",
                         action="store_true")
-    parser.add_argument("-f", "--infile",
+    parser.add_argument("-i", "--infile",
                         help="use this file to set the environment up")
+    parser.add_argument("-f", "--fullscreen",
+                        help="run fullscreen on last screen available", action="store_true")
     args = parser.parse_args()
     shared.continual = args.screensaver
+    shared.fullscreen = args.fullscreen
     if args.infile:
         nodes_set = jsonify.parse_infile(args.infile)
-    print(nodes_set)
     main(nodes_set)
