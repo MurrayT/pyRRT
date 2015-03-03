@@ -20,3 +20,4 @@ xdomain = 0, window_width
 ydomain = 50, window_height
 method = None
 fullscreen = True
+region = None

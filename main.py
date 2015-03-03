@@ -18,7 +18,6 @@ import shared
 methods = [rrt.step, rrtstar.step, rrtstarconstricted.step]
 meth_cycle = cycle(methods)
 
-
 fps_display = pyglet.clock.ClockDisplay()
 
 def method_cycle():

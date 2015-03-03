@@ -2,32 +2,47 @@ __author__ = 'murraytannock'
 
 import random
 import math
+import ellipse
 from probabilistic_search import *
 
 
 def step():
     xdomain = shared.xdomain
     ydomain = shared.ydomain
-    if shared.root_path:
-        xvals = [point.x for point in shared.root_path]
-        xdomain = (int(math.floor(min(xvals))), int(math.ceil(max(xvals))))
-        yvals = [point.y for point in shared.root_path]
-        ydomain = (int(math.floor(min(yvals))), int(math.ceil(max(yvals))))
     rand = (random.randint(xdomain[0], xdomain[1]), random.randint(ydomain[0], ydomain[1]))
-    nearest_in = node.nearest_neighbour(rand[0], rand[1])
-    next_node = nearest_in.step_to(rand)
-    if next_node is not None:
-        neighbourhood = next_node.neighbourhood()
-        best_neighbour = next_node.best_neighbour(neighbourhood)
-        if next_node.parent != best_neighbour:
-            next_node.change_parent(best_neighbour)
-        for neighbour in neighbourhood:
-            if next_node.cost + next_node.dist_to((neighbour.x, neighbour.y)) < neighbour.cost:
-                neighbour.change_parent(next_node)
-        shared.nodes.append(next_node)
-        shared.node_count += 1
-        if shared.root_path:
-            goal_path_resolve(shared.root_path[0])
-        goal_path_resolve(shared.nodes[-1])
+    if shared.root_path:
+        diameter = shared.root_path_length
+        rho = math.sqrt(random.random())
+        phi = random.random() * 2 * math.pi
+        center = ((shared.root_path[0].x+shared.root_path[-1].x)/2,
+                  (shared.root_path[0].y+shared.root_path[-1].y)/2)
+        x = rho * math.cos(phi)
+        y = rho * math.sin(phi)
+        x *= diameter/2
+        y *= diameter/2
+        if not shared.region:
+            shared.region = ellipse.Ellipse(center[0], center[1], diameter)
+            shared.region.add_to_batch()
+        else:
+            shared.region.remove_from_batch()
+            shared.region = ellipse.Ellipse(center[0], center[1], diameter)
+            shared.region.add_to_batch()
+        rand = (x+center[0], y+center[1])
+    if xdomain[1] > rand[0] > xdomain[0] and ydomain[1] > rand[1] > ydomain[0]:
+        nearest_in = node.nearest_neighbour(rand[0], rand[1])
+        next_node = nearest_in.step_to(rand)
+        if next_node is not None:
+            neighbourhood = next_node.neighbourhood()
+            best_neighbour = next_node.best_neighbour(neighbourhood)
+            if next_node.parent != best_neighbour:
+                next_node.change_parent(best_neighbour)
+            for neighbour in neighbourhood:
+                if next_node.cost + next_node.dist_to((neighbour.x, neighbour.y)) < neighbour.cost:
+                    neighbour.change_parent(next_node)
+            shared.nodes.append(next_node)
+            shared.node_count += 1
+            if shared.root_path:
+                goal_path_resolve(shared.root_path[0])
+            goal_path_resolve(shared.nodes[-1])
 
 step.__name__ = "RRT*Constricted"
