@@ -138,12 +138,6 @@ def setup(is_set=(False, False)):
 
 
 def main(set_nodes):
-    if shared.fullscreen:
-        shared.window_width, shared.window_height = shared.screen_width, shared.screen_height
-        shared.x_domain = 0, shared.window_width
-        shared.y_domain = 50, shared.window_height
-        shared.x_range = shared.x_domain[1] - shared.x_domain[0]
-        shared.y_range = shared.y_domain[1] - shared.y_domain[0]
     window = pyglet.window.Window(width=shared.window_width, height=shared.window_height)
     window.set_fullscreen(shared.fullscreen, shared.screen)
     window.set_location(shared.screen.x, shared.screen.height - shared.default_screen.height)
@@ -234,6 +228,12 @@ if __name__ == "__main__":
     if shared.continual:
         shared.base_max = sys.maxsize
     shared.fullscreen = args.fullscreen
+    if shared.fullscreen:
+        shared.window_width, shared.window_height = shared.screen_width, shared.screen_height
+        shared.x_domain = 0, shared.window_width
+        shared.y_domain = 50, shared.window_height
+        shared.x_range = shared.x_domain[1] - shared.x_domain[0]
+        shared.y_range = shared.y_domain[1] - shared.y_domain[0]
     if args.infile:
         nodes_set = jsonify.parse_infile(args.infile)
     main(nodes_set)
