@@ -28,9 +28,6 @@ y_range = y_domain[1] - y_domain[0]
 method = None
 fullscreen = False
 region = None
-continual = True
+continual = False
 outfile_base = "levels/level"
 outfile_ext = ".json"
-
-if continual:
-    base_max = 1000000000000000000000

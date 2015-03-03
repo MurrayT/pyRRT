@@ -56,7 +56,6 @@ def parse_infile(infile):
         if 'obstacles' in json_obj:
             obstacles = json_obj["obstacles"]
             for obs in obstacles:
-                print(obstacles[obs])
                 this_obstacle = obstacles[obs]
                 x = this_obstacle["x"] * shared.x_range
                 y = (this_obstacle["y"] * shared.y_range) + shared.y_domain[0]
