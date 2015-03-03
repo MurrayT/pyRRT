@@ -22,4 +22,7 @@ def goal_path_resolve(new_node):
                 current_node.root_path_color()
                 current_node = current_node.parent
                 shared.root_path.append(current_node)
-            shared.running = False
+            if not shared.continual:
+                shared.running = False
+            return True
+        return False

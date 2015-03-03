@@ -5,11 +5,14 @@ import pyglet
 
 STEP_SIZE = 20
 neighbourhood_size = STEP_SIZE
-window_width = 800
-window_height = int(10/16 * window_width)
+screen = pyglet.window.get_platform().get_default_display().get_screens()[-1]
+default_screen = pyglet.window.get_platform().get_default_display().get_screens()[0]
+window_width = screen.width
+window_height = screen.height
 running = False
 batch = pyglet.graphics.Batch()
 node_count = 0
+base_max = 1000
 max_nodes = 1000
 goal = None
 root_path = []
@@ -19,5 +22,9 @@ obstacles = []
 xdomain = 0, window_width
 ydomain = 50, window_height
 method = None
-fullscreen = True
+fullscreen = False
 region = None
+continual = True
+
+if continual:
+    base_max = 1000000000000000000000

@@ -13,9 +13,10 @@ import obstacle
 import rrt
 import rrtstar
 import rrtstarconstricted
+import rrtstarinformed
 import shared
 
-methods = [rrt.step, rrtstar.step, rrtstarconstricted.step]
+methods = [rrt.step, rrtstar.step, rrtstarconstricted.step, rrtstarinformed.step]
 meth_cycle = cycle(methods)
 
 fps_display = pyglet.clock.ClockDisplay()
@@ -50,6 +51,37 @@ def update(dt):
                                               0.5, 0.5, 0.5, 0.5,
                                               0.5, 0.5, 0.5, 0.5,
                                               0.5, 0.5, 0.5, 0.5)))
+    if shared.running:
+        if shared.node_count >= shared.max_nodes:
+            indicator = pyglet.graphics.draw(4, gl.GL_QUADS,
+                                             ('v2f', (shared.window_width//5-20, 24 - 10,
+                                                      shared.window_width//5-20, 24 + 10,
+                                                      shared.window_width//5, 24 + 10,
+                                                      shared.window_width//5, 24 - 10)),
+                                             ('c4f', (0.5, 0.25, 0.0, 0.5,
+                                                      0.5, 0.25, 0.0, 0.5,
+                                                      0.5, 0.25, 0.0, 0.5,
+                                                      0.5, 0.25, 0.0, 0.5)))
+        else:
+            indicator = pyglet.graphics.draw(4, gl.GL_QUADS,
+                                             ('v2f', (shared.window_width//5-20, 24 - 10,
+                                                      shared.window_width//5-20, 24 + 10,
+                                                      shared.window_width//5, 24 + 10,
+                                                      shared.window_width//5, 24 - 10)),
+                                             ('c4f', (0.0, 0.5, 0.0, 0.5,
+                                                      0.0, 0.5, 0.0, 0.5,
+                                                      0.0, 0.5, 0.0, 0.5,
+                                                      0.0, 0.5, 0.0, 0.5)))
+    else:
+        indicator = pyglet.graphics.draw(4, gl.GL_QUADS,
+                                         ('v2f', (shared.window_width//5-20, 24 - 10,
+                                                  shared.window_width//5-20, 24 + 10,
+                                                  shared.window_width//5, 24 + 10,
+                                                  shared.window_width//5, 24 - 10)),
+                                         ('c4f', (0.5, 0.0, 0.0, 0.5,
+                                                  0.5, 0.0, 0.0, 0.5,
+                                                  0.5, 0.0, 0.0, 0.5,
+                                                  0.5, 0.0, 0.0, 0.5)))
     shared.batch.draw()
     fps_display.draw()
     label.draw()
@@ -64,9 +96,10 @@ def setup(new_start=True):
     root = None
     if shared.nodes:
         root = shared.nodes[0]
+    shared.region = None
     shared.nodes.clear()
     shared.node_count = 0
-    shared.max_nodes = 1000
+    shared.max_nodes = shared.base_max
     del shared.batch
     shared.batch = pyglet.graphics.Batch()
     for obs in shared.obstacles:
@@ -99,6 +132,9 @@ def setup(new_start=True):
 
 def main():
     window = pyglet.window.Window(width=shared.window_width, height=shared.window_height, fullscreen=shared.fullscreen)
+    window.set_fullscreen(True, shared.screen)
+    window.set_location(1280, shared.screen.height-shared.default_screen.height)
+    print(window.get_location())
     window.set_caption("Rapidly Expanding Random Trees - RRT - Stopped")
 
     @window.event
