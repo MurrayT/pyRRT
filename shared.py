@@ -1,4 +1,4 @@
-__author__ = 'murraytannock'
+__author__ = 'Murray Tannock'
 import sys
 
 import pyglet
@@ -21,10 +21,10 @@ root_path = []
 root_path_length = sys.maxsize
 nodes = []
 obstacles = []
-xdomain = 0, window_width
-ydomain = 50, window_height
-xrange = xdomain[1] - xdomain[0]
-yrange = ydomain[1] - ydomain[0]
+x_domain = 0, window_width
+y_domain = 50, window_height
+x_range = x_domain[1] - x_domain[0]
+y_range = y_domain[1] - y_domain[0]
 method = None
 fullscreen = False
 region = None

@@ -1,4 +1,4 @@
-__author__ = 'murraytannock'
+__author__ = 'Murray Tannock'
 
 import shared
 import json
@@ -12,23 +12,23 @@ import node
 def json_dump():
     my_dict = {"nodes": {
         "1": {
-            "x": shared.nodes[0].x/shared.xrange,
-            "y": (shared.nodes[0].y-shared.ydomain[0])/shared.yrange,
+            "x": shared.nodes[0].x/shared.x_range,
+            "y": (shared.nodes[0].y-shared.y_domain[0])/shared.y_range,
             "type": shared.nodes[0].type
         },
         "2": {
-            "x": shared.goal.x/shared.xrange,
-            "y": (shared.goal.y-shared.ydomain[0])/shared.yrange,
+            "x": shared.goal.x/shared.x_range,
+            "y": (shared.goal.y-shared.y_domain[0])/shared.y_range,
             "type": shared.goal.type
         }
     }, "obstacles": {}}
 
     for i, obs in enumerate(shared.obstacles):
         my_dict["obstacles"][str(i)] = {
-            "x": obs.x/shared.xrange,
-            "y": (obs.y-shared.ydomain[0])/shared.yrange,
-            "width": obs.width/shared.xrange,
-            "height": obs.height/shared.yrange
+            "x": obs.x/shared.x_range,
+            "y": (obs.y-shared.y_domain[0])/shared.y_range,
+            "width": obs.width/shared.x_range,
+            "height": obs.height/shared.y_range
         }
     i = 0
     outfile = shared.outfile_base+str(i)+shared.outfile_ext
@@ -58,18 +58,18 @@ def parse_infile(infile):
             for obs in obstacles:
                 print(obstacles[obs])
                 this_obstacle = obstacles[obs]
-                x = this_obstacle["x"]*shared.xrange
-                y = (this_obstacle["y"]*shared.yrange)+shared.ydomain[0]
-                width = this_obstacle["width"]*shared.xrange
-                height = this_obstacle["height"]*shared.yrange
+                x = this_obstacle["x"]*shared.x_range
+                y = (this_obstacle["y"]*shared.y_range)+shared.y_domain[0]
+                width = this_obstacle["width"]*shared.x_range
+                height = this_obstacle["height"]*shared.y_range
                 shared.obstacles.append(obstacle.Obstacle(x, y, width, height))
         if 'nodes' in json_obj:
             nodes = json_obj["nodes"]
             for my_node in nodes:
                 this_node = nodes[my_node]
                 if this_node["type"] == "root":
-                    x = this_node["x"]*shared.xrange
-                    y = (this_node["y"]*shared.yrange)+shared.ydomain[0]
+                    x = this_node["x"]*shared.x_range
+                    y = (this_node["y"]*shared.y_range)+shared.y_domain[0]
                     for obs in shared.obstacles:
                         if obs.collides_with(x, y):
                             print("Error: Specified root node collides with an obstacle.".format(infile), file=sys.stderr)
@@ -78,8 +78,8 @@ def parse_infile(infile):
                     root_set = True
 
                 if this_node["type"] == "goal":
-                    x = this_node["x"]*shared.xrange
-                    y = (this_node["y"]*shared.yrange)+shared.ydomain[0]
+                    x = this_node["x"]*shared.x_range
+                    y = (this_node["y"]*shared.y_range)+shared.y_domain[0]
                     for obs in shared.obstacles:
                         if obs.collides_with(x, y):
                             print("Error: Specified root node collides with an obstacle.".format(infile), file=sys.stderr)

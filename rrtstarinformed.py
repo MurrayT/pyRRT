@@ -1,4 +1,4 @@
-__author__ = 'murraytannock'
+__author__ = 'Murray Tannock'
 
 import random
 import math
@@ -7,9 +7,9 @@ from probabilistic_search import *
 
 
 def step():
-    xdomain = shared.xdomain
-    ydomain = shared.ydomain
-    rand = (random.randint(xdomain[0], xdomain[1]), random.randint(ydomain[0], ydomain[1]))
+    x_domain = shared.x_domain
+    y_domain = shared.y_domain
+    rand = (random.randint(x_domain[0], x_domain[1]), random.randint(y_domain[0], y_domain[1]))
     if shared.root_path:
         major = shared.root_path_length
         minor = math.sqrt(major**2 - shared.root_path[0].dist_to((shared.root_path[-1].x, shared.root_path[-1].y))**2)
@@ -32,7 +32,7 @@ def step():
             shared.region = ellipse.Ellipse(center[0], center[1], major, minor, angle)
             shared.region.add_to_batch()
         rand = (x+center[0], y+center[1])
-    if xdomain[1] > rand[0] > xdomain[0] and ydomain[1] > rand[1] > ydomain[0]:
+    if x_domain[1] > rand[0] > x_domain[0] and y_domain[1] > rand[1] > y_domain[0]:
         nearest_in = node.nearest_neighbour(rand[0], rand[1])
         next_node = nearest_in.step_to(rand)
         if next_node is not None:

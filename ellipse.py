@@ -1,4 +1,4 @@
-__author__ = 'murraytannock'
+__author__ = 'Murray Tannock'
 
 import math
 import shared

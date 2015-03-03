@@ -4,7 +4,7 @@ import shared
 
 class Obstacle(object):
     def __init__(self, x, y, width, height):
-        # right now we restrict obstacles to rectangles, eventually extend to polys using triangle fans
+        # right now we restrict obstacles to rectangles, eventually extend to polygons using triangle fans
         self.x = x
         self.y = y
         self.width = width

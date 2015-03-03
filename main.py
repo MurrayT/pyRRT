@@ -28,14 +28,14 @@ def method_cycle():
 
 
 def update(dt):
-    pathcost = None
+    path_cost = None
     if shared.running:
         if shared.node_count < shared.max_nodes:
             shared.method()
     gl.glClear(gl.GL_COLOR_BUFFER_BIT)
     gl.glLoadIdentity()
     if shared.root_path_length != sys.maxsize:
-        pathcost = pyglet.text.Label("Path Cost: %6.2f" % shared.root_path_length,
+        path_cost = pyglet.text.Label("Path Cost: %6.2f" % shared.root_path_length,
                                      font_size=18,
                                      x=shared.window_width//3, y=24,
                                      anchor_x='center', anchor_y='center',
@@ -45,7 +45,7 @@ def update(dt):
                               x=shared.window_width-10, y=24,
                               anchor_x='right', anchor_y='center',
                               color=(128, 128, 128, 128))
-    separator = pyglet.graphics.draw(4, gl.GL_QUADS,
+    pyglet.graphics.draw(4, gl.GL_QUADS,
                                      ('v2f', (0, 50,
                                               shared.window_width, 50,
                                               shared.window_width, 48,
@@ -56,7 +56,7 @@ def update(dt):
                                               0.5, 0.5, 0.5, 0.5)))
     if shared.running:
         if shared.node_count >= shared.max_nodes:
-            indicator = pyglet.graphics.draw(4, gl.GL_QUADS,
+            pyglet.graphics.draw(4, gl.GL_QUADS,
                                              ('v2f', (shared.window_width//5-20, 24 - 10,
                                                       shared.window_width//5-20, 24 + 10,
                                                       shared.window_width//5, 24 + 10,
@@ -66,7 +66,7 @@ def update(dt):
                                                       0.5, 0.25, 0.0, 0.5,
                                                       0.5, 0.25, 0.0, 0.5)))
         else:
-            indicator = pyglet.graphics.draw(4, gl.GL_QUADS,
+            pyglet.graphics.draw(4, gl.GL_QUADS,
                                              ('v2f', (shared.window_width//5-20, 24 - 10,
                                                       shared.window_width//5-20, 24 + 10,
                                                       shared.window_width//5, 24 + 10,
@@ -76,7 +76,7 @@ def update(dt):
                                                       0.0, 0.5, 0.0, 0.5,
                                                       0.0, 0.5, 0.0, 0.5)))
     else:
-        indicator = pyglet.graphics.draw(4, gl.GL_QUADS,
+        pyglet.graphics.draw(4, gl.GL_QUADS,
                                          ('v2f', (shared.window_width//5-20, 24 - 10,
                                                   shared.window_width//5-20, 24 + 10,
                                                   shared.window_width//5, 24 + 10,
@@ -88,8 +88,8 @@ def update(dt):
     shared.batch.draw()
     fps_display.draw()
     label.draw()
-    if pathcost is not None:
-        pathcost.draw()
+    if path_cost is not None:
+        path_cost.draw()
 
 
 def setup(is_set=(False, False)):
