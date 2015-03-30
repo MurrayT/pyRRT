@@ -19,6 +19,7 @@ def step():
         for x_near in X_near:
             if obstacle_free(x_near, x_new) and (x_new_node.cost + x_near.dist_to(x_new) < x_near.cost):
                 x_near.change_parent(x_new_node)
+        # I deviate from the stated implementation here to check for new goal paths
         if shared.root_path:
             goal_path_resolve(shared.root_path[0])
         goal_path_resolve(shared.nodes[-1])

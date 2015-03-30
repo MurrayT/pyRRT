@@ -91,3 +91,11 @@ def new_neighbourhood(point):
         if this_node.dist_to(point) <= shared.neighbourhood_size:
             nh.append(this_node)
     return nh
+
+
+def sample_unit_ball():
+    rho = math.sqrt(random.random())
+    phi = random.random() * 2 * math.pi
+    x = rho * math.cos(phi)
+    y = rho * math.sin(phi)
+    return x, y
