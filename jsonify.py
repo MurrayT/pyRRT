@@ -10,6 +10,10 @@ import node
 
 
 def json_dump():
+    """
+    Dumps JSON description of a level to a file. In future may make this dynamic through cl arguments
+    :return: None
+    """
     my_dict = {"nodes": {
         "1": {
             "x": shared.nodes[0].x / shared.x_range,
@@ -40,6 +44,11 @@ def json_dump():
 
 
 def parse_infile(infile):
+    """
+    Parses a JSON file into a level
+    :param infile: filename to read from
+    :return: Tuple indicating whether root node and goal node have been set.
+    """
     import os
 
     root_set = False

@@ -6,6 +6,9 @@ from probabilistic_search import *
 
 
 def step():
+    """
+    One step of informed RRT* generation, see paper for more details
+    """
     x_rand = sample()
     x_nearest = new_nearest_neighbour(x_rand)
     x_new = steer(x_nearest, x_rand)
@@ -41,6 +44,9 @@ def step():
 
 
 def sample():
+    """
+    sampling method for constricted RRT* paper gives more details.
+    """
     if shared.root_path_length < sys.maxsize:
         # We make a circle
         major = shared.root_path_length

@@ -26,11 +26,20 @@ fps_display = pyglet.clock.ClockDisplay()
 
 
 def method_cycle():
+    """
+    Gets next element in the cycle of methods
+    :return: method
+    """
     return next(meth_cycle)
 
 
 # noinspection PyUnusedLocal
 def update(dt):
+    """
+    pyglet update
+    :param dt: We don't care about no dt
+    :return: none
+    """
     path_cost = None
     if shared.running:
         if shared.node_count < shared.max_nodes:
@@ -102,6 +111,11 @@ def update(dt):
 
 
 def setup(is_set=(False, False)):
+    """
+    Set up the environment.
+    :param is_set: Root and goal nodes are set.
+    :return: None
+    """
     if shared.method is None:
         shared.method = method_cycle()
     shared.running = False
@@ -145,6 +159,11 @@ def setup(is_set=(False, False)):
 
 
 def main(set_nodes):
+    """
+    Main method calls pyglet app run to run the app.
+    :param set_nodes:boolean tuple if goal/root nodes are set
+    :return:
+    """
     window = pyglet.window.Window(width=shared.window_width, height=shared.window_height)
     window.set_fullscreen(shared.fullscreen, shared.screen)
     window.set_location(shared.screen.x, shared.screen.height - shared.default_screen.height)
@@ -153,6 +172,12 @@ def main(set_nodes):
     # noinspection PyUnusedLocal
     @window.event
     def on_key_press(symbol, modifiers):
+        """
+        event listeners from keyboard
+        :param symbol: Key press
+        :param modifiers: modifier keys pressed
+        :return: None
+        """
         if symbol == key.S:
             shared.running = not shared.running
             window.set_caption("Rapidly-exploring Random Trees - %s - %s" %
@@ -185,6 +210,14 @@ def main(set_nodes):
     # noinspection PyUnusedLocal
     @window.event
     def on_mouse_press(x, y, button, modifiers):
+        """
+        Mousedown event creates new obstacles, and deletes existing
+        :param x: x position of press
+        :param y: y position
+        :param button: Left or Right LEft creates right deletes
+        :param modifiers:
+        :return:
+        """
         if button == mouse.LEFT:
             shared.obstacles.append(obstacle.Obstacle(x, y, 0, 0))
         if button == mouse.RIGHT:
@@ -195,6 +228,14 @@ def main(set_nodes):
     # noinspection PyUnusedLocal
     @window.event
     def on_mouse_release(x, y, button, modifiers):
+        """
+        Releasing the mouse finalises the creation of an obstacle
+        :param x: release pos
+        :param y: release pos
+        :param button: button released
+        :param modifiers:
+        :return:
+        """
         if button == mouse.LEFT:
             dx = x - shared.obstacles[-1].x
             dy = y - shared.obstacles[-1].y
@@ -218,7 +259,7 @@ def main(set_nodes):
     pyglet.app.run()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # This happens if you run
     import argparse
 
     nodes_set = (False, False)

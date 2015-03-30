@@ -8,6 +8,9 @@ import shared
 
 
 class Node(object):
+    """
+    Node class for use in graphics manipulation, and cost calculations
+    """
     def __init__(self, x, y, parent=None, node_type="normal"):
         self.x = x
         self.y = y
@@ -24,7 +27,7 @@ class Node(object):
             self.line = shared.batch.add(2, gl.GL_LINES, None,
                                          ('v2f', (self.parent.x, self.parent.y,
                                                   self.x, self.y)))
-
+        # colours node based on itss type
         if node_type == "normal":
             self.node = shared.batch.add(4, gl.GL_QUADS, None,
                                          ('v2f', (self.x - 1, self.y + 1,
@@ -53,44 +56,19 @@ class Node(object):
         return "(%s,%s)" % (self.x, self.y)
 
     def dist_to(self, other):
+        """
+        calculates distance between this node and another point
+        :param other: other point
+        :return: float distance between points
+        """
         return math.sqrt((self.x - other[0]) * (self.x - other[0]) +
                          (self.y - other[1]) * (self.y - other[1]))
 
-    def step_to(self, other):
-        if self.dist_to(other) < shared.STEP_SIZE:
-            for obstacle in shared.obstacles:
-                if obstacle.collides_with(other[0], other[1]):
-                    return None
-            n = Node(other[0], other[1], self)
-        else:
-            theta = math.atan2(other[1] - self.y, other[0] - self.x)
-            x = self.x + shared.STEP_SIZE * math.cos(theta)
-            y = self.y + shared.STEP_SIZE * math.sin(theta)
-            for obstacle in shared.obstacles:
-                if obstacle.collides_with(x, y):
-                    return None
-            n = Node(x, y, self)
-
-        return n
-
-    def step_to_point(self, other):
-        if self.dist_to(other) <= shared.STEP_SIZE:
-            for obstacle in shared.obstacles:
-                if obstacle.collides_with(other[0], other[1]):
-                    return None
-            n = (other[0], other[1])
-        else:
-            theta = math.atan2(other[1] - self.y, other[0] - self.x)
-            x = self.x + shared.STEP_SIZE * math.cos(theta)
-            y = self.y + shared.STEP_SIZE * math.sin(theta)
-            for obstacle in shared.obstacles:
-                if obstacle.collides_with(x, y):
-                    return None
-            n = (x, y)
-
-        return n
-
     def root_path_color(self):
+        """
+        Colours the path to the root, used in goal highlighting
+        :return:
+        """
         self.line.delete()
         self.line = shared.batch.add(2, gl.GL_LINES, None,
                                      ('v2f', (self.parent.x, self.parent.y,
@@ -116,6 +94,10 @@ class Node(object):
                                                   0, 255, 255)))
 
     def deroot_path_color(self):
+        """
+        Removes colour from the root path, used when this is no longer the best path
+        :return: None
+        """
         if self.type != "root":
             self.line.delete()
             self.line = shared.batch.add(2, gl.GL_LINES, None,
@@ -130,11 +112,20 @@ class Node(object):
                                                   self.x - 1, self.y - 1)))
 
     def update_cost(self):
+        """
+        updates cost of reaching node after parent changes
+        :return:
+        """
         self.cost = self.parent.cost + self.dist_to((self.parent.x, self.parent.y))
         for child in self.children:
             child.update_cost()
 
     def change_parent(self, new_parent):
+        """
+        Changes the parent of node and updates graphics and costs
+        :param new_parent:
+        :return:
+        """
         if self.parent:
             self.line.delete()
             self.parent.children.remove(self)
@@ -145,25 +136,3 @@ class Node(object):
         self.line = shared.batch.add(2, gl.GL_LINES, None,
                                      ('v2f', (self.parent.x, self.parent.y,
                                               self.x, self.y)))
-
-    def neighbourhood(self):
-        nh = []
-        for this_node in shared.nodes:
-            if self.dist_to((this_node.x, this_node.y)) <= shared.neighbourhood_size:
-                nh.append(this_node)
-        return nh
-
-    def best_neighbour(self, neighbourhood):
-        current_best = self.parent
-        for this_node in neighbourhood:
-            if self.cost > this_node.cost + this_node.dist_to((self.x, self.y)):
-                current_best = this_node
-        return current_best
-
-
-def nearest_neighbour(x, y):
-    current_nearest = shared.nodes[0]
-    for this_node in shared.nodes:
-        if this_node.dist_to((x, y)) < current_nearest.dist_to((x, y)):
-            current_nearest = this_node
-    return current_nearest

@@ -8,6 +8,11 @@ import shared
 
 
 class Ellipse(object):
+    """
+    Ellipse graphics object based on a OpenGL Line Loop.
+     Constructors for ellipses and circles
+
+    """
     segments = 40
 
     def __init__(self, x, y, width, height=None, rotation=0):
@@ -21,6 +26,10 @@ class Ellipse(object):
         self.line = None
 
     def add_to_batch(self):
+        """
+        Add the ellipse to the default batch
+        :return: None
+        """
         points = []
         colors = []
         for i in range(Ellipse.segments):
@@ -44,4 +53,8 @@ class Ellipse(object):
         self.line = shared.batch.add(Ellipse.segments, gl.GL_LINE_LOOP, None, ('v2f', t), ('c3B', ct))
 
     def remove_from_batch(self):
+        """
+        Remove the ellipse from the batch by deleting it's line
+        :return:
+        """
         self.line.delete()
