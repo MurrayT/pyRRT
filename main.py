@@ -148,32 +148,32 @@ def main(set_nodes):
     window = pyglet.window.Window(width=shared.window_width, height=shared.window_height)
     window.set_fullscreen(shared.fullscreen, shared.screen)
     window.set_location(shared.screen.x, shared.screen.height - shared.default_screen.height)
-    window.set_caption("Rapidly Expanding Random Trees - RRT - Stopped")
+    window.set_caption("Rapidly-exploring Random Trees - RRT - Stopped")
 
     # noinspection PyUnusedLocal
     @window.event
     def on_key_press(symbol, modifiers):
         if symbol == key.S:
             shared.running = not shared.running
-            window.set_caption("Rapidly Expanding Random Trees - %s - %s" %
+            window.set_caption("Rapidly-exploring Random Trees - %s - %s" %
                                (shared.method.__name__,
                                 'Running' if shared.running else 'Stopped'))
         if symbol == key.T:
             window.clear()
             setup()
-            window.set_caption("Rapidly Expanding Random Trees - %s - %s" %
+            window.set_caption("Rapidly-exploring Random Trees - %s - %s" %
                                (shared.method.__name__,
                                 'Running' if shared.running else 'Stopped'))
         if symbol == key.R:
             window.clear()
             setup((True, True))
-            window.set_caption("Rapidly Expanding Random Trees - %s - %s" %
+            window.set_caption("Rapidly-exploring Random Trees - %s - %s" %
                                (shared.method.__name__,
                                 'Running' if shared.running else 'Stopped'))
         if symbol == key.P:
             shared.method = method_cycle()
             setup((True, True))
-            window.set_caption("Rapidly Expanding Random Trees - %s - %s" %
+            window.set_caption("Rapidly-exploring Random Trees - %s - %s" %
                                (shared.method.__name__,
                                 'Running' if shared.running else 'Stopped'))
         if symbol == key.UP:
