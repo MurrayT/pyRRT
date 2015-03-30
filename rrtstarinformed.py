@@ -66,4 +66,5 @@ def sample():
     else:
         return sample_free()
 
-step.__name__ = "RRT*Informed"
+
+step.__name__ = "iRRT*"

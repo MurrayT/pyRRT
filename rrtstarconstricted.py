@@ -53,4 +53,5 @@ def sample():
     else:
         return sample_free()
 
-step.__name__ = "RRT*Constricted"
+
+step.__name__ = "cRRT*"

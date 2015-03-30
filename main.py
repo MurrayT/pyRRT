@@ -42,6 +42,11 @@ def update(dt):
                                       x=shared.window_width // 3, y=24,
                                       anchor_x='center', anchor_y='center',
                                       color=(128, 128, 128, 128))
+    node_label = pyglet.text.Label("Nodes: %d" % shared.node_count,
+                                   font_size=18,
+                                   x=2 * shared.window_width // 3, y=24,
+                                   anchor_x='center', anchor_y='center',
+                                   color=(128, 128, 128, 128))
     label = pyglet.text.Label(shared.method.__name__,
                               font_size=36,
                               x=shared.window_width - 10, y=24,
@@ -90,6 +95,7 @@ def update(dt):
     shared.batch.draw()
     fps_display.draw()
     label.draw()
+    node_label.draw()
     if path_cost is not None:
         path_cost.draw()
 
